@@ -5,8 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Practical Files Viewer</title>
 
@@ -19,215 +18,141 @@
 
 
         body {
-
             margin: 0;
-
+            background: #f5f5f5;
             font-family: Arial, Helvetica, sans-serif;
-
-            background: #f4f6f8;
-
-            color: #222;
-
+            color: #111;
         }
 
 
         /* HEADER */
 
         header {
-
-            background: #24292f;
-
-            color: white;
-
-            padding: 22px 25px;
-
-            font-size: 28px;
-
+            background: white;
+            padding: 25px 40px;
+            font-size: 32px;
             font-weight: bold;
-
-            box-shadow:
-                0 2px 8px rgba(0,0,0,0.2);
-
+            text-align: center;
+            border-bottom: 1px solid #ddd;
         }
 
 
         /* MAIN */
 
         .container {
-
-            width: 92%;
-
-            max-width: 1200px;
-
-            margin: 30px auto;
-
+            width: 96%;
+            margin: 25px auto;
         }
 
 
         /* CATEGORY */
 
         .category {
-
             background: white;
-
-            margin-bottom: 15px;
-
-            border-radius: 10px;
-
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
             overflow: hidden;
-
-            border: 1px solid #ddd;
-
-            box-shadow:
-                0 2px 8px rgba(0,0,0,0.08);
-
         }
 
 
         /* CATEGORY TITLE */
 
         .category-title {
-
-            padding: 20px;
-
-            font-size: 22px;
-
+            padding: 22px 25px;
+            font-size: 25px;
             font-weight: bold;
-
             cursor: pointer;
-
-            user-select: none;
-
+            background: white;
         }
 
 
         .category-title:hover {
-
-            background: #f0f2f4;
-
+            background: #f2f2f2;
         }
 
 
         .arrow {
-
             display: inline-block;
-
-            width: 28px;
-
+            margin-right: 8px;
             transition: transform 0.2s;
-
         }
 
 
         .category.open .arrow {
-
             transform: rotate(90deg);
-
         }
 
 
-        /* CONTENT */
+        /* FILE CONTENT */
 
-        .category-content {
-
+        .file-content {
             display: none;
-
-            border-top: 1px solid #ddd;
-
-            padding: 20px;
-
-            background: #fafafa;
-
+            padding: 0 18px 18px 18px;
         }
 
 
-        .category.open .category-content {
-
+        .category.open .file-content {
             display: block;
-
         }
 
 
-        /* COMPLETE FILE */
+        /* BLACK CODE BOX */
 
         pre {
-
             margin: 0;
+            padding: 22px 18px;
 
-            background: #111827;
+            background: #171717;
+            color: #ffffff;
 
-            color: #f8fafc;
-
-            padding: 25px;
-
-            border-radius: 8px;
-
-            overflow-x: auto;
-
-            overflow-y: auto;
-
-            white-space: pre;
+            border-radius: 7px;
 
             font-family:
                 Consolas,
                 "Courier New",
                 monospace;
 
-            font-size: 14px;
+            font-size: 15px;
 
-            line-height: 1.6;
+            line-height: 1.5;
 
-            min-height: 100px;
+            white-space: pre-wrap;
 
-            max-height: 700px;
+            word-wrap: break-word;
 
-        }
-
-
-        /* LOADING */
-
-        .loading {
-
-            text-align: center;
-
-            padding: 30px;
-
-            font-size: 18px;
-
-            color: #555;
-
-        }
-
-
-        /* ERROR */
-
-        .error {
-
-            background: #ffe5e5;
-
-            color: #a00000;
-
-            padding: 20px;
-
-            border-radius: 8px;
-
-            border: 1px solid #ffb3b3;
-
-            margin-top: 20px;
-
+            overflow-x: auto;
         }
 
 
         /* FOOTER */
 
         footer {
-
             text-align: center;
-
-            padding: 30px;
-
             color: #777;
+            padding: 35px;
+            font-size: 16px;
+        }
 
+
+        /* ERROR */
+
+        .error {
+            padding: 20px;
+            background: #ffe5e5;
+            color: #b00000;
+            border: 1px solid #ffaaaa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+
+        /* LOADING */
+
+        #loading {
+            text-align: center;
+            padding: 30px;
+            font-size: 18px;
         }
 
     </style>
@@ -253,8 +178,7 @@
     <div class="container">
 
 
-        <div id="loading"
-             class="loading">
+        <div id="loading">
 
             Loading practical files...
 
@@ -282,16 +206,12 @@
         /*
         ==================================================
         YOUR FILES
-        ==================================================
+
+        These are the exact files in your repository:
 
         EH
         MJ
         SW
-
-        Each file contains ALL of its practicals.
-
-        We will display the COMPLETE file exactly
-        as it is written.
         ==================================================
         */
 
@@ -299,18 +219,18 @@
         const files = [
 
             {
-                name: "EH",
-                filename: "EH"
+                title: "EH Practicals",
+                file: "EH"
             },
 
             {
-                name: "MJ",
-                filename: "MJ"
+                title: "MJ Practicals",
+                file: "MJ"
             },
 
             {
-                name: "SW",
-                filename: "SW"
+                title: "SW Practicals",
+                file: "SW"
             }
 
         ];
@@ -323,8 +243,7 @@
         ==================================================
         */
 
-        async function loadFile(filename) {
-
+        async function getFile(filename) {
 
             const response =
                 await fetch("./" + filename);
@@ -333,13 +252,8 @@
             if (!response.ok) {
 
                 throw new Error(
-
-                    "Could not load " +
                     filename +
-                    " (HTTP " +
-                    response.status +
-                    ")"
-
+                    " could not be loaded."
                 );
 
             }
@@ -358,7 +272,7 @@
         */
 
         function createCategory(
-            file,
+            title,
             text
         ) {
 
@@ -371,45 +285,39 @@
                 "category";
 
 
-
             /*
-            CATEGORY TITLE
+            TITLE
             */
 
-            const title =
+            const heading =
                 document.createElement("div");
 
 
-            title.className =
+            heading.className =
                 "category-title";
 
 
-            title.innerHTML =
-
-                '<span class="arrow">▶</span>' +
-
-                file.name +
-
-                " Practicals";
-
+            heading.innerHTML =
+                '<span class="arrow">▼</span>' +
+                title;
 
 
             /*
-            CLICK CATEGORY
+            CLICK
             */
 
-            title.onclick = function() {
+            heading.onclick =
+                function () {
 
-                category.classList.toggle(
-                    "open"
-                );
+                    category.classList.toggle(
+                        "open"
+                    );
 
-            };
-
+                };
 
 
             /*
-            CONTENT AREA
+            CONTENT
             */
 
             const content =
@@ -417,31 +325,33 @@
 
 
             content.className =
-                "category-content";
-
+                "file-content";
 
 
             /*
-            COMPLETE FILE CONTENT
-
-            textContent is used so the text
-            appears EXACTLY as written.
-
-            Nothing is changed.
+            BLACK BOX
             */
 
             const code =
                 document.createElement("pre");
 
 
-            code.textContent = text;
+            /*
+            IMPORTANT:
 
+            textContent displays the COMPLETE
+            file exactly as written.
+
+            It does NOT split P1/P2/P3.
+            */
+
+            code.textContent = text;
 
 
             content.appendChild(code);
 
 
-            category.appendChild(title);
+            category.appendChild(heading);
 
             category.appendChild(content);
 
@@ -454,11 +364,11 @@
 
         /*
         ==================================================
-        LOAD ALL THREE FILES
+        LOAD EVERYTHING
         ==================================================
         */
 
-        async function loadViewer() {
+        async function loadPage() {
 
 
             const viewer =
@@ -476,24 +386,20 @@
             try {
 
 
-                /*
-                Load EH, MJ and SW
-                */
-
                 for (
-                    const file of files
+                    const item of files
                 ) {
 
 
                     const text =
-                        await loadFile(
-                            file.filename
+                        await getFile(
+                            item.file
                         );
 
 
                     const category =
                         createCategory(
-                            file,
+                            item.title,
                             text
                         );
 
@@ -504,10 +410,6 @@
 
                 }
 
-
-                /*
-                Hide loading message
-                */
 
                 loading.style.display =
                     "none";
@@ -525,15 +427,15 @@
 
                     '<div class="error">' +
 
-                    '<strong>' +
-
-                    'Error loading practical file' +
-
-                    '</strong>' +
+                    '<b>Error loading files</b>' +
 
                     '<br><br>' +
 
                     error.message +
+
+                    '<br><br>' +
+
+                    'Make sure your repository contains files named exactly EH, MJ and SW.' +
 
                     '</div>';
 
@@ -545,11 +447,11 @@
 
         /*
         ==================================================
-        START WEBSITE
+        START
         ==================================================
         */
 
-        loadViewer();
+        loadPage();
 
 
     </script>
