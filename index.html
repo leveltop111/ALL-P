@@ -2,10 +2,14 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Practical Files Viewer</title>
+
 
     <style>
 
@@ -13,159 +17,217 @@
             box-sizing: border-box;
         }
 
+
         body {
+
             margin: 0;
+
             font-family: Arial, Helvetica, sans-serif;
+
             background: #f4f6f8;
+
             color: #222;
+
         }
+
 
         /* HEADER */
 
         header {
+
             background: #24292f;
+
             color: white;
+
             padding: 22px 25px;
+
             font-size: 28px;
+
             font-weight: bold;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.2);
+
         }
 
-        /* MAIN CONTAINER */
+
+        /* MAIN */
 
         .container {
+
             width: 92%;
-            max-width: 1100px;
+
+            max-width: 1200px;
+
             margin: 30px auto;
+
         }
+
 
         /* CATEGORY */
 
         .category {
+
             background: white;
+
             margin-bottom: 15px;
+
             border-radius: 10px;
+
             overflow: hidden;
+
             border: 1px solid #ddd;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.08);
+
         }
+
+
+        /* CATEGORY TITLE */
 
         .category-title {
-            padding: 18px 20px;
-            font-size: 21px;
+
+            padding: 20px;
+
+            font-size: 22px;
+
             font-weight: bold;
+
             cursor: pointer;
+
             user-select: none;
+
         }
+
 
         .category-title:hover {
+
             background: #f0f2f4;
+
         }
+
 
         .arrow {
+
             display: inline-block;
-            width: 25px;
-            transition: 0.2s;
+
+            width: 28px;
+
+            transition: transform 0.2s;
+
         }
+
 
         .category.open .arrow {
+
             transform: rotate(90deg);
+
         }
 
-        /* PRACTICAL LIST */
-
-        .practicals {
-            display: none;
-            padding: 10px;
-            background: #fafafa;
-            border-top: 1px solid #ddd;
-        }
-
-        .category.open .practicals {
-            display: block;
-        }
-
-        /* PRACTICAL */
-
-        .practical {
-            background: white;
-            margin: 8px 0;
-            border: 1px solid #ddd;
-            border-radius: 7px;
-            overflow: hidden;
-        }
-
-        .practical-title {
-            padding: 14px 16px;
-            cursor: pointer;
-            font-size: 17px;
-            font-weight: bold;
-        }
-
-        .practical-title:hover {
-            background: #f0f2f4;
-        }
-
-        .practical.open .arrow {
-            transform: rotate(90deg);
-        }
 
         /* CONTENT */
 
-        .practical-content {
+        .category-content {
+
             display: none;
-            padding: 18px;
+
             border-top: 1px solid #ddd;
+
+            padding: 20px;
+
+            background: #fafafa;
+
         }
 
-        .practical.open .practical-content {
+
+        .category.open .category-content {
+
             display: block;
+
         }
 
-        .aim {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
 
-        /* CODE BOX */
+        /* COMPLETE FILE */
 
         pre {
+
+            margin: 0;
+
             background: #111827;
+
             color: #f8fafc;
-            padding: 20px;
+
+            padding: 25px;
+
             border-radius: 8px;
+
             overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            line-height: 1.5;
+
+            overflow-y: auto;
+
+            white-space: pre;
+
+            font-family:
+                Consolas,
+                "Courier New",
+                monospace;
+
             font-size: 14px;
-            font-family: Consolas, "Courier New", monospace;
+
+            line-height: 1.6;
+
+            min-height: 100px;
+
+            max-height: 700px;
+
         }
+
 
         /* LOADING */
 
         .loading {
+
             text-align: center;
+
             padding: 30px;
+
             font-size: 18px;
+
+            color: #555;
+
         }
+
 
         /* ERROR */
 
         .error {
+
             background: #ffe5e5;
+
             color: #a00000;
+
             padding: 20px;
+
             border-radius: 8px;
+
             border: 1px solid #ffb3b3;
+
+            margin-top: 20px;
+
         }
+
 
         /* FOOTER */
 
         footer {
+
             text-align: center;
+
             padding: 30px;
+
             color: #777;
+
         }
 
     </style>
@@ -176,358 +238,178 @@
 <body>
 
 
-<header>
-    📁 Practical Files Viewer
-</header>
+    <!-- HEADER -->
+
+    <header>
+
+        📁 Practical Files Viewer
+
+    </header>
 
 
-<div class="container">
 
-    <div id="loading" class="loading">
-        Loading practicals...
+    <!-- MAIN -->
+
+    <div class="container">
+
+
+        <div id="loading"
+             class="loading">
+
+            Loading practical files...
+
+        </div>
+
+
+        <div id="viewer"></div>
+
+
     </div>
 
-    <div id="viewer"></div>
-
-</div>
 
 
-<footer>
-    Practical Files Viewer
-</footer>
+    <footer>
 
+        Practical Files Viewer
 
-<script>
-
-
-/*
-==================================================
-FILES IN YOUR GITHUB REPOSITORY
-==================================================
-
-EH
-MJ
-SW
-index.html
-
-==================================================
-*/
-
-
-const categories = [
-
-    {
-        name: "EH",
-        file: "EH"
-    },
-
-    {
-        name: "MJ",
-        file: "MJ"
-    },
-
-    {
-        name: "SW",
-        file: "SW"
-    }
-
-];
+    </footer>
 
 
 
-/*
-==================================================
-LOAD FILE
-==================================================
-*/
-
-async function loadFile(fileName) {
-
-    const response = await fetch("./" + fileName);
-
-    if (!response.ok) {
-
-        throw new Error(
-            "Cannot load " +
-            fileName +
-            " (HTTP " +
-            response.status +
-            ")"
-        );
-
-    }
-
-    return await response.text();
-
-}
-
-
-
-/*
-==================================================
-PARSE PRACTICALS
-
-Works with formats such as:
-
-P1.Aim:
-P2.Aim:
-P3.Aim:
-
-or
-
-P1. Aim:
-P2. Aim:
-==================================================
-*/
-
-function parsePracticals(text) {
-
-
-    const pattern =
-        /(?:^|\n)\s*(P\d+)\s*\.\s*Aim\s*:/gi;
-
-
-    const matches =
-        [...text.matchAll(pattern)];
-
-
-    const practicals = [];
-
-
-    for (
-        let i = 0;
-        i < matches.length;
-        i++
-    ) {
-
-
-        const match = matches[i];
-
-
-        const practicalNumber =
-            match[1];
-
-
-        const start =
-            match.index + match[0].length;
-
-
-        const end =
-            i + 1 < matches.length
-                ? matches[i + 1].index
-                : text.length;
-
-
-        let section =
-            text.substring(start, end).trim();
-
-
-        const lines =
-            section.split(/\r?\n/);
-
-
-        let aim = "";
-
-        let code = "";
+    <script>
 
 
         /*
-        Find first non-empty line
+        ==================================================
+        YOUR FILES
+        ==================================================
+
+        EH
+        MJ
+        SW
+
+        Each file contains ALL of its practicals.
+
+        We will display the COMPLETE file exactly
+        as it is written.
+        ==================================================
         */
 
-        let firstLine = -1;
+
+        const files = [
+
+            {
+                name: "EH",
+                filename: "EH"
+            },
+
+            {
+                name: "MJ",
+                filename: "MJ"
+            },
+
+            {
+                name: "SW",
+                filename: "SW"
+            }
+
+        ];
 
 
-        for (
-            let j = 0;
-            j < lines.length;
-            j++
-        ) {
 
-            if (
-                lines[j].trim() !== ""
-            ) {
+        /*
+        ==================================================
+        LOAD FILE
+        ==================================================
+        */
 
-                firstLine = j;
+        async function loadFile(filename) {
 
-                break;
+
+            const response =
+                await fetch("./" + filename);
+
+
+            if (!response.ok) {
+
+                throw new Error(
+
+                    "Could not load " +
+                    filename +
+                    " (HTTP " +
+                    response.status +
+                    ")"
+
+                );
 
             }
 
-        }
 
-
-        if (firstLine !== -1) {
-
-
-            aim =
-                lines[firstLine].trim();
-
-
-            code =
-                lines
-                    .slice(firstLine + 1)
-                    .join("\n")
-                    .trim();
+            return await response.text();
 
         }
 
 
-        practicals.push({
 
-            number:
-                practicalNumber,
+        /*
+        ==================================================
+        CREATE CATEGORY
+        ==================================================
+        */
 
-            aim:
-                aim,
-
-            code:
-                code
-
-        });
-
-    }
+        function createCategory(
+            file,
+            text
+        ) {
 
 
-    return practicals;
-
-}
-
-
-
-/*
-==================================================
-ESCAPE HTML
-==================================================
-*/
-
-function escapeHtml(text) {
-
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-
-/*
-==================================================
-CREATE CATEGORY
-==================================================
-*/
-
-function createCategory(
-    category,
-    practicals
-) {
-
-
-    const categoryDiv =
-        document.createElement("div");
-
-
-    categoryDiv.className =
-        "category";
-
-
-    /*
-    CATEGORY TITLE
-    */
-
-    const title =
-        document.createElement("div");
-
-
-    title.className =
-        "category-title";
-
-
-    title.innerHTML =
-        '<span class="arrow">▶</span>' +
-        category.name +
-        " Practicals";
-
-
-    title.onclick = function () {
-
-        categoryDiv.classList.toggle(
-            "open"
-        );
-
-    };
-
-
-    categoryDiv.appendChild(title);
-
-
-
-    /*
-    PRACTICALS CONTAINER
-    */
-
-    const practicalsDiv =
-        document.createElement("div");
-
-
-    practicalsDiv.className =
-        "practicals";
-
-
-
-    /*
-    CREATE PRACTICALS
-    */
-
-    practicals.forEach(
-        function(practical) {
-
-
-            const practicalDiv =
+            const category =
                 document.createElement("div");
 
 
-            practicalDiv.className =
-                "practical";
+            category.className =
+                "category";
+
 
 
             /*
-            PRACTICAL TITLE
+            CATEGORY TITLE
             */
 
-            const practicalTitle =
+            const title =
                 document.createElement("div");
 
 
-            practicalTitle.className =
-                "practical-title";
+            title.className =
+                "category-title";
 
 
-            practicalTitle.innerHTML =
+            title.innerHTML =
+
                 '<span class="arrow">▶</span>' +
-                practical.number +
-                " - " +
-                escapeHtml(
-                    practical.aim
-                );
 
+                file.name +
 
-            practicalTitle.onclick =
-                function() {
-
-                    practicalDiv.classList.toggle(
-                        "open"
-                    );
-
-                };
+                " Practicals";
 
 
 
             /*
-            PRACTICAL CONTENT
+            CLICK CATEGORY
+            */
+
+            title.onclick = function() {
+
+                category.classList.toggle(
+                    "open"
+                );
+
+            };
+
+
+
+            /*
+            CONTENT AREA
             */
 
             const content =
@@ -535,220 +417,142 @@ function createCategory(
 
 
             content.className =
-                "practical-content";
+                "category-content";
 
 
 
             /*
-            AIM
+            COMPLETE FILE CONTENT
+
+            textContent is used so the text
+            appears EXACTLY as written.
+
+            Nothing is changed.
             */
 
-            const aim =
-                document.createElement("div");
+            const code =
+                document.createElement("pre");
 
 
-            aim.className =
-                "aim";
-
-
-            aim.innerHTML =
-                "Aim: " +
-                escapeHtml(
-                    practical.aim
-                );
-
-
-            content.appendChild(aim);
+            code.textContent = text;
 
 
 
-            /*
-            CODE
-            */
-
-            if (practical.code) {
+            content.appendChild(code);
 
 
-                const pre =
-                    document.createElement("pre");
+            category.appendChild(title);
+
+            category.appendChild(content);
 
 
-                pre.textContent =
-                    practical.code;
-
-
-                content.appendChild(pre);
-
-            }
-
-
-
-            practicalDiv.appendChild(
-                practicalTitle
-            );
-
-
-            practicalDiv.appendChild(
-                content
-            );
-
-
-            practicalsDiv.appendChild(
-                practicalDiv
-            );
-
-        }
-    );
-
-
-
-    categoryDiv.appendChild(
-        practicalsDiv
-    );
-
-
-    return categoryDiv;
-
-}
-
-
-
-/*
-==================================================
-LOAD ALL FILES
-==================================================
-*/
-
-async function loadViewer() {
-
-
-    const viewer =
-        document.getElementById(
-            "viewer"
-        );
-
-
-    const loading =
-        document.getElementById(
-            "loading"
-        );
-
-
-    try {
-
-
-        for (
-            const category of categories
-        ) {
-
-
-            const text =
-                await loadFile(
-                    category.file
-                );
-
-
-            const practicals =
-                parsePracticals(text);
-
-
-            if (
-                practicals.length === 0
-            ) {
-
-                console.warn(
-                    "No practicals found in " +
-                    category.file
-                );
-
-                continue;
-
-            }
-
-
-            const categoryElement =
-                createCategory(
-                    category,
-                    practicals
-                );
-
-
-            viewer.appendChild(
-                categoryElement
-            );
+            return category;
 
         }
 
-
-        loading.style.display =
-            "none";
 
 
         /*
-        If nothing was found
+        ==================================================
+        LOAD ALL THREE FILES
+        ==================================================
         */
 
-        if (
-            viewer.children.length === 0
-        ) {
+        async function loadViewer() {
 
 
-            viewer.innerHTML =
+            const viewer =
+                document.getElementById(
+                    "viewer"
+                );
 
-                '<div class="error">' +
 
-                '<strong>' +
-                'No practicals found.' +
-                '</strong><br><br>' +
+            const loading =
+                document.getElementById(
+                    "loading"
+                );
 
-                'Please check that EH, MJ and SW contain practicals.' +
 
-                '</div>';
+            try {
+
+
+                /*
+                Load EH, MJ and SW
+                */
+
+                for (
+                    const file of files
+                ) {
+
+
+                    const text =
+                        await loadFile(
+                            file.filename
+                        );
+
+
+                    const category =
+                        createCategory(
+                            file,
+                            text
+                        );
+
+
+                    viewer.appendChild(
+                        category
+                    );
+
+                }
+
+
+                /*
+                Hide loading message
+                */
+
+                loading.style.display =
+                    "none";
+
+
+            }
+            catch (error) {
+
+
+                loading.style.display =
+                    "none";
+
+
+                viewer.innerHTML =
+
+                    '<div class="error">' +
+
+                    '<strong>' +
+
+                    'Error loading practical file' +
+
+                    '</strong>' +
+
+                    '<br><br>' +
+
+                    error.message +
+
+                    '</div>';
+
+            }
 
         }
 
 
-    }
-    catch(error) {
+
+        /*
+        ==================================================
+        START WEBSITE
+        ==================================================
+        */
+
+        loadViewer();
 
 
-        loading.style.display =
-            "none";
-
-
-        console.error(error);
-
-
-        viewer.innerHTML =
-
-            '<div class="error">' +
-
-            '<strong>' +
-            'Error loading practical files' +
-            '</strong><br><br>' +
-
-            escapeHtml(
-                error.message
-            ) +
-
-            '</div>';
-
-    }
-
-}
-
-
-
-/*
-==================================================
-START
-==================================================
-*/
-
-loadViewer();
-
-
-</script>
+    </script>
 
 
 </body>
